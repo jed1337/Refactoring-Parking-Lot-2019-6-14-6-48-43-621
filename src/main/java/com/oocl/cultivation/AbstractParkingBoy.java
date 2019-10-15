@@ -4,6 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractParkingBoy {
+    private static final String NOT_ENOUGH_POSITION = "Not enough position";
+    private static final String NO_PARKING_TICKET = "Please provide your parking ticket";
+    private static final String UNRECOGNIZED_PARKING_TICKET = "Unrecognized parking ticket";
+
     protected final List<ParkingLot> parkingLotList;
     protected String lastErrorMessage;
 
@@ -23,7 +27,7 @@ public abstract class AbstractParkingBoy {
             return getBestParkingLot().park(car);
         }
         else{
-            lastErrorMessage = "Not enough position";
+            lastErrorMessage = NOT_ENOUGH_POSITION;
             return null;
         }
     }
@@ -32,14 +36,14 @@ public abstract class AbstractParkingBoy {
 
     public Car fetch(ParkingTicket ticket) {
         if (ticket == null) {
-            lastErrorMessage = "Please provide your parking ticket";
+            lastErrorMessage = NO_PARKING_TICKET;
             return null;
         }
 
         Car car = fetchCarFromParkingLotList(ticket);
 
         if (car == null) {
-            lastErrorMessage = "Unrecognized parking ticket";
+            lastErrorMessage = UNRECOGNIZED_PARKING_TICKET;
             return null;
         }
         return car;
