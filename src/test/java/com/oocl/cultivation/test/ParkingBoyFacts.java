@@ -20,17 +20,17 @@ class ParkingBoyFacts {
 
     @Test
     public void should_park_car_by_parking_boy_and_return_ticket(){
-        Car car = new Car();
+        Car myCar = new Car();
 
-        ParkingTicket ticket = defaultParkingBoy.park(car);
+        ParkingTicket ticket = defaultParkingBoy.park(myCar);
 
         assertNotNull(ticket);
     }
 
     @Test
     public void should_get_car_if_parking_boy_is_given_ticket(){
-        Car car = new Car();
-        ParkingTicket ticket = defaultParkingBoy.park(car);
+        Car myCar = new Car();
+        ParkingTicket ticket = defaultParkingBoy.park(myCar);
         Car fetchedCar = defaultParkingBoy.fetch(ticket);
 
         assertNotNull(fetchedCar);
@@ -98,35 +98,30 @@ class ParkingBoyFacts {
 
     @Test
     public void should_create_error_message_when_parking_boy_is_given_no_ticket() {
-        ParkingBoy parkingboy = new ParkingBoy(new ParkingLot());
+        defaultParkingBoy.fetch(null);
 
-        parkingboy.fetch(null);
-
-        assertEquals(parkingboy.getLastErrorMessage(), "Please provide your parking ticket");
+        assertEquals(defaultParkingBoy.getLastErrorMessage(), "Please provide your parking ticket");
     }
 
     @Test
     public void should_create_error_message_when_parking_boy_is_given_wrong_ticket() {
-        ParkingBoy parkingboy = new ParkingBoy(new ParkingLot());
         Car myCar = new Car();
         ParkingTicket wrongTicket = new ParkingTicket();
 
-        ParkingTicket correctTicket = parkingboy.park(myCar);
-        parkingboy.fetch(wrongTicket);
+        ParkingTicket correctTicket = defaultParkingBoy.park(myCar);
+        defaultParkingBoy.fetch(wrongTicket);
 
-        assertEquals(parkingboy.getLastErrorMessage(), "Unrecognized parking ticket");
+        assertEquals(defaultParkingBoy.getLastErrorMessage(), "Unrecognized parking ticket");
     }
 
     @Test
     public void should_create_error_message_when_attempt_to_park_in_full_lot() {
-        ParkingBoy parkingboy = new ParkingBoy(new ParkingLot());
         Car myCar = new Car();
 
-        fillParkingLot(parkingboy);
+        fillParkingLot(defaultParkingBoy);
+        defaultParkingBoy.park(myCar);
 
-        parkingboy.park(myCar);
-
-        assertEquals(parkingboy.getLastErrorMessage(), "Not enough position");
+        assertEquals(defaultParkingBoy.getLastErrorMessage(), "Not enough position");
     }
 
     @Test
